@@ -1,0 +1,279 @@
+/*
+ * Template Wacana — "The Editorial" (brand guide RayaTimes, layout 03).
+ * Konteks lebih dulu: tipografi Newsreader sebagai suara, Inter untuk informasi,
+ * dan bidang warna per kanal dari palet sekunder brand.
+ */
+@import 'tailwindcss' source(none);
+@import '@fontsource-variable/newsreader/opsz.css';
+@import '@fontsource-variable/newsreader/opsz-italic.css';
+@import '@fontsource-variable/inter/opsz.css';
+@import 'remixicon/fonts/remixicon.css';
+
+@source '../views';
+@source '../js';
+
+@theme {
+    --font-serif: 'Newsreader Variable', Georgia, serif;
+    --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+
+    --color-paper: #ffffff;
+    --color-stone: #f3f1ed;
+    --color-ink: #111111;
+    --color-graphite: #4a4a4a;
+    --color-ash: #77736c;
+    --color-raya: #c62828;
+    --color-sun: #ffc107;
+    --color-java: #8f2635;
+    --color-terracotta: #8a5a44;
+    --color-gold: #c49a45;
+    --color-beige: #e8dcc8;
+    --color-forest: #254b3c;
+    --color-slate: #54758a;
+
+    --ease-paper: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Warna kanal: tiap kanal (dan sub-kanalnya) memakai satu warna dari palet sekunder. */
+[data-kanal] { --hue: var(--color-ink); --on-hue: #fff; }
+[data-kanal='berita'], [data-kanal='nasional'], [data-kanal='nusantara'], [data-kanal='internasional'] { --hue: var(--color-raya); }
+[data-kanal='politik'] { --hue: var(--color-java); }
+[data-kanal='ekonomi'] { --hue: var(--color-forest); }
+[data-kanal='hankam'] { --hue: var(--color-slate); }
+[data-kanal='hukum'] { --hue: #2d2d2d; }
+[data-kanal='tajuk'] { --hue: var(--color-raya); }
+[data-kanal='analisis'] { --hue: var(--color-gold); --on-hue: var(--color-ink); }
+[data-kanal='khazanah'] { --hue: var(--color-terracotta); }
+[data-kanal='olahraga'], [data-kanal='sepakbola'], [data-kanal='basket'], [data-kanal='motogp'], [data-kanal='formula-1'], [data-kanal='esports'] { --hue: #2f6b52; }
+[data-kanal='gaya-hidup'], [data-kanal='kesehatan'], [data-kanal='hiburan'], [data-kanal='tren'], [data-kanal='sosok'], [data-kanal='religi'] { --hue: #3e5f73; }
+
+@layer base {
+    html {
+        scroll-padding-top: 5rem;
+        --reader-scale: 1;
+    }
+
+    body {
+        @apply bg-paper font-sans text-ink antialiased;
+        font-optical-sizing: auto;
+    }
+
+    ::selection {
+        background: var(--color-beige);
+        color: var(--color-java);
+    }
+
+    :focus-visible {
+        outline: 2px solid var(--color-java);
+        outline-offset: 2px;
+    }
+}
+
+@view-transition {
+    navigation: auto;
+}
+
+::view-transition-old(root) {
+    animation: 200ms var(--ease-paper) both wc-out;
+}
+
+::view-transition-new(root) {
+    animation: 380ms var(--ease-paper) both wc-in;
+}
+
+@keyframes wc-out {
+    to { opacity: 0; }
+}
+
+@keyframes wc-in {
+    from { opacity: 0; transform: translateY(10px); }
+}
+
+@layer components {
+    .wc-display {
+        @apply font-serif font-medium tracking-[-0.015em] text-balance;
+        line-height: 1.04;
+    }
+
+    .wc-head {
+        @apply font-serif font-semibold text-pretty;
+        line-height: 1.18;
+    }
+
+    .wc-link {
+        background-image: linear-gradient(var(--hue, currentColor), var(--hue, currentColor));
+        background-size: 0 2px;
+        background-position: 0 100%;
+        background-repeat: no-repeat;
+        transition: background-size 0.4s var(--ease-paper);
+    }
+
+    .group:hover .wc-link,
+    .wc-link:hover {
+        background-size: 100% 2px;
+    }
+
+    .wc-kanal {
+        @apply inline-flex items-center gap-2 text-[13px] font-semibold;
+        color: var(--hue);
+    }
+
+    .wc-kanal::before {
+        content: '';
+        @apply size-2.5 shrink-0;
+        background: var(--hue);
+    }
+
+    .wc-meta {
+        @apply text-[13px] text-ash;
+    }
+
+    .wc-btn {
+        @apply inline-flex items-center justify-center gap-2 bg-ink px-5 py-3 text-sm font-semibold text-paper transition duration-300;
+    }
+
+    .wc-btn:hover {
+        @apply bg-java;
+    }
+
+    .wc-btn-line {
+        @apply inline-flex items-center justify-center gap-2 bg-stone px-5 py-3 text-sm font-semibold text-ink transition duration-300;
+    }
+
+    .wc-btn-line:hover {
+        @apply bg-ink text-paper;
+    }
+
+    /* Foto duotone: hitam-putih lalu diwarnai warna kanal; kembali berwarna saat hover. */
+    .wc-duo {
+        @apply relative block overflow-hidden;
+        background: var(--hue);
+    }
+
+    .wc-duo > img {
+        @apply absolute inset-0 size-full object-cover opacity-0;
+        filter: grayscale(1) contrast(1.1);
+        mix-blend-mode: multiply;
+        transition: opacity 0.6s var(--ease-paper), filter 0.6s var(--ease-paper), mix-blend-mode 0s;
+    }
+
+    .wc-duo.is-loaded > img {
+        @apply opacity-100;
+    }
+
+    .group:hover .wc-duo.is-loaded > img {
+        filter: none;
+        mix-blend-mode: normal;
+    }
+
+    /* Foto biasa dengan skeleton. */
+    .wc-photo {
+        @apply relative block overflow-hidden bg-stone;
+    }
+
+    .wc-photo:not(.is-loaded) {
+        background: linear-gradient(90deg, #efece6 25%, #f7f5f1 50%, #efece6 75%);
+        background-size: 200% 100%;
+        animation: wc-shimmer 1.4s linear infinite;
+    }
+
+    .wc-photo > img {
+        @apply absolute inset-0 size-full object-cover opacity-0;
+        transition: opacity 0.6s var(--ease-paper);
+    }
+
+    .wc-photo.is-loaded > img {
+        @apply opacity-100;
+    }
+
+    .wc-skel {
+        background: linear-gradient(90deg, #efece6 25%, #f7f5f1 50%, #efece6 75%);
+        background-size: 200% 100%;
+        animation: wc-shimmer 1.4s linear infinite;
+    }
+
+    .wc-enter {
+        animation: wc-in 0.5s var(--ease-paper) both;
+    }
+}
+
+@keyframes wc-shimmer {
+    from { background-position: 200% 0; }
+    to { background-position: -200% 0; }
+}
+
+/* Teks artikel */
+.wc-prose {
+    @apply font-serif text-ink;
+    font-size: calc(1.22rem * var(--reader-scale));
+    line-height: 1.72;
+}
+
+.wc-prose > * + * {
+    margin-top: 1.15em;
+}
+
+.wc-prose > p:first-of-type::first-letter {
+    @apply float-left mr-3 mt-1 font-serif font-semibold text-java;
+    font-size: 4.4em;
+    line-height: 0.82;
+}
+
+.wc-prose p:first-child strong:first-child {
+    @apply font-sans text-[0.78em] font-bold tracking-wide text-java;
+}
+
+.wc-prose h2,
+.wc-prose h3,
+.wc-prose h4 {
+    @apply mt-[1.8em] font-serif font-semibold leading-tight;
+    font-size: 1.35em;
+}
+
+.wc-prose a {
+    @apply text-java underline decoration-java/30 decoration-2 underline-offset-4 transition;
+}
+
+.wc-prose a:hover {
+    @apply decoration-java;
+}
+
+.wc-prose ul { @apply list-disc pl-6; }
+.wc-prose ol { @apply list-decimal pl-6; }
+
+.wc-prose figure img,
+.wc-prose video {
+    @apply w-full;
+}
+
+.wc-prose figcaption {
+    @apply mt-2 font-sans text-xs text-ash;
+}
+
+.wc-prose blockquote {
+    @apply border-l-4 border-java pl-6 text-[1.3em] italic;
+}
+
+.wc-prose [data-card] a {
+    @apply text-ink no-underline;
+}
+
+.no-scrollbar {
+    scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    @view-transition {
+        navigation: none;
+    }
+}

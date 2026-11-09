@@ -1,0 +1,353 @@
+/*
+ * Template Lensa — "The Story Frame" (brand guide RayaTimes, layout 02).
+ * Visual menjadi pembawa cerita; tipografi memberi konteks. Latar hitam brand, aksen kuning brand.
+ * Archivo (lebar condensed) untuk headline & antarmuka, Newsreader untuk teks bacaan panjang.
+ */
+@import 'tailwindcss' source(none);
+@import '@fontsource-variable/archivo/wdth.css';
+@import '@fontsource-variable/newsreader/opsz.css';
+@import 'remixicon/fonts/remixicon.css';
+
+@source '../views';
+@source '../js';
+
+@theme {
+    --font-sans: 'Archivo Variable', ui-sans-serif, system-ui, sans-serif;
+    --font-read: 'Newsreader Variable', Georgia, serif;
+
+    /* Warna dipetakan ke variabel: tema gelap (bawaan) & terang, bisa dipaksa per bagian lewat data-theme. */
+    --color-ground: var(--ls-ground);
+    --color-panel: var(--ls-panel);
+    --color-raise: var(--ls-raise);
+    --color-edge: var(--ls-edge);
+    --color-ink: var(--ls-ink);
+    --color-dim: var(--ls-dim);
+    --color-sun: var(--ls-accent);
+    --color-raya: #c62828;
+
+    --radius-frame: 14px;
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+
+/*
+ * Tema. Gelap = latar hitam brand + aksen kuning. Terang = latar putih + aksen Raya Red
+ * (kuning di atas putih tidak cukup kontras untuk teks). Area foto (hero, kartu bertumpuk)
+ * memakai data-theme="dark" agar tetap sinematik di kedua tema.
+ */
+:root,
+[data-theme='dark'] {
+    --ls-ground: #111111;
+    --ls-panel: #1a1a1a;
+    --ls-raise: #242424;
+    --ls-edge: #2e2e2e;
+    --ls-ink: #f5f5f5;
+    --ls-dim: #a1a1a1;
+    --ls-accent: #ffc107;
+    --ls-read: #e6e6e6;
+    --ls-sheen: rgb(255 255 255 / 0.06);
+    --ls-logo-dark: block;
+    --ls-logo-light: none;
+    color-scheme: dark;
+}
+
+[data-theme='light'] {
+    --ls-ground: #ffffff;
+    --ls-panel: #f4f4f3;
+    --ls-raise: #e9e9e7;
+    --ls-edge: #dcdcda;
+    --ls-ink: #111111;
+    --ls-dim: #5f5f5c;
+    --ls-accent: #c62828;
+    --ls-read: #1f1f1f;
+    --ls-sheen: rgb(0 0 0 / 0.05);
+    --ls-logo-dark: none;
+    --ls-logo-light: block;
+    color-scheme: light;
+}
+
+[data-theme] {
+    /* Dipetakan ulang di sini agar bagian bertema paksa (data-theme) ikut berganti warna. */
+    --color-ground: var(--ls-ground);
+    --color-panel: var(--ls-panel);
+    --color-raise: var(--ls-raise);
+    --color-edge: var(--ls-edge);
+    --color-ink: var(--ls-ink);
+    --color-dim: var(--ls-dim);
+    --color-sun: var(--ls-accent);
+    color: var(--ls-ink);
+}
+
+/* Logo yang sesuai tema terdekat (variabel diwarisi dari pembungkus data-theme terdekat). */
+.ls-logo-on-dark { display: var(--ls-logo-dark); }
+.ls-logo-on-light { display: var(--ls-logo-light); }
+
+@layer base {
+    html {
+        scroll-padding-top: 5rem;
+    }
+
+    body {
+        @apply bg-ground font-sans text-ink antialiased;
+        transition: background-color 0.4s var(--ease-out), color 0.4s var(--ease-out);
+    }
+
+    ::selection {
+        background: #ffc107;
+        color: #111;
+    }
+
+    :focus-visible {
+        outline: 2px solid var(--ls-accent);
+        outline-offset: 3px;
+    }
+}
+
+@view-transition {
+    navigation: auto;
+}
+
+::view-transition-old(root) {
+    animation: 260ms var(--ease-out) both ls-out;
+}
+
+::view-transition-new(root) {
+    animation: 420ms var(--ease-out) both ls-in;
+}
+
+::view-transition-group(ls-hero) {
+    animation-duration: 520ms;
+    animation-timing-function: var(--ease-out);
+}
+
+@keyframes ls-out {
+    to { opacity: 0; transform: scale(0.985); }
+}
+
+@keyframes ls-in {
+    from { opacity: 0; transform: scale(1.01); }
+}
+
+@utility font-condensed {
+    font-stretch: 72%;
+}
+
+@utility font-narrow {
+    font-stretch: 86%;
+}
+
+@layer components {
+    /* Bingkai foto: placeholder berdenyut, lalu gambar masuk perlahan dengan sedikit zoom-out. */
+    .ls-frame {
+        @apply relative block overflow-hidden bg-raise;
+    }
+
+    .ls-frame::before {
+        content: '';
+        @apply absolute inset-0;
+        background: linear-gradient(100deg, transparent 30%, var(--ls-sheen) 50%, transparent 70%);
+        background-size: 220% 100%;
+        animation: ls-sheen 1.3s linear infinite;
+    }
+
+    .ls-frame > img {
+        @apply absolute inset-0 size-full object-cover opacity-0;
+        transform: scale(1.06);
+        transition: opacity 0.7s var(--ease-out), transform 1.2s var(--ease-out);
+    }
+
+    .ls-frame.is-loaded::before {
+        display: none;
+    }
+
+    .ls-frame.is-loaded > img {
+        @apply opacity-100;
+        transform: scale(1);
+    }
+
+    .group:hover .ls-frame.is-loaded > img {
+        transform: scale(1.04);
+    }
+
+    .ls-shade {
+        background: linear-gradient(to top, rgb(0 0 0 / 0.92) 0%, rgb(0 0 0 / 0.55) 38%, rgb(0 0 0 / 0) 70%);
+    }
+
+    .ls-headline {
+        @apply font-condensed font-bold tracking-[-0.01em] text-balance;
+        line-height: 1.02;
+    }
+
+    .ls-kanal {
+        @apply inline-flex items-center gap-1.5 text-xs font-semibold text-sun;
+    }
+
+    .ls-pill {
+        @apply inline-flex items-center gap-2 rounded-full bg-raise px-4 py-2 text-sm font-medium text-ink transition duration-300;
+    }
+
+    .ls-pill:hover,
+    .ls-pill[aria-current='page'] {
+        @apply bg-sun text-ground;
+    }
+
+    .ls-btn {
+        @apply inline-flex items-center justify-center gap-2 rounded-full bg-sun px-6 py-3 text-sm font-semibold text-ground transition duration-300;
+    }
+
+    .ls-btn:hover {
+        @apply bg-ink;
+    }
+
+    .ls-btn-ghost {
+        @apply inline-flex items-center justify-center gap-2 rounded-full bg-raise px-6 py-3 text-sm font-semibold text-ink transition duration-300;
+    }
+
+    .ls-btn-ghost:hover {
+        @apply bg-ink text-ground;
+    }
+
+    .ls-skel {
+        @apply rounded-frame bg-raise;
+        animation: ls-pulse 1.4s ease-in-out infinite;
+    }
+
+    .ls-rise {
+        animation: ls-rise 0.6s var(--ease-out) both;
+    }
+}
+
+@keyframes ls-sheen {
+    from { background-position: 200% 0; }
+    to { background-position: -200% 0; }
+}
+
+@keyframes ls-pulse {
+    50% { opacity: 0.45; }
+}
+
+@keyframes ls-rise {
+    from { opacity: 0; transform: translateY(14px); }
+}
+
+/* Slide hero: zoom perlahan saat aktif, bilah progres seperti story. */
+[data-slide] {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.9s var(--ease-out), visibility 0s 0.9s;
+}
+
+[data-slide][data-active='true'] {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.9s var(--ease-out);
+}
+
+[data-slide] .ls-frame > img {
+    transition: opacity 0.9s var(--ease-out), transform 7s linear;
+}
+
+[data-slide][data-active='true'] .ls-frame.is-loaded > img {
+    transform: scale(1.08);
+}
+
+[data-slide] [data-slide-copy] > * {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.6s var(--ease-out), transform 0.8s var(--ease-out);
+}
+
+[data-slide][data-active='true'] [data-slide-copy] > * {
+    opacity: 1;
+    transform: none;
+}
+
+[data-slide][data-active='true'] [data-slide-copy] > :nth-child(2) { transition-delay: 0.08s; }
+[data-slide][data-active='true'] [data-slide-copy] > :nth-child(3) { transition-delay: 0.16s; }
+
+[data-bar] > span {
+    transform-origin: 0 50%;
+    transform: scaleX(0);
+}
+
+[data-bar][data-state='done'] > span {
+    transform: scaleX(1);
+}
+
+[data-bar][data-state='run'] > span {
+    animation: ls-bar var(--slide-ms, 6000ms) linear forwards;
+}
+
+[data-paused='true'] [data-bar][data-state='run'] > span {
+    animation-play-state: paused;
+}
+
+@keyframes ls-bar {
+    to { transform: scaleX(1); }
+}
+
+/* Teks bacaan artikel */
+.ls-read {
+    @apply font-read text-[19px] leading-[1.75] text-(--ls-read);
+    font-optical-sizing: auto;
+}
+
+.ls-read > * + * {
+    @apply mt-6;
+}
+
+.ls-read h2,
+.ls-read h3,
+.ls-read h4 {
+    @apply mt-12 font-sans font-narrow text-2xl font-bold leading-tight text-ink;
+}
+
+.ls-read a {
+    @apply text-sun underline decoration-sun/40 underline-offset-4 transition;
+}
+
+.ls-read a:hover {
+    @apply decoration-sun;
+}
+
+.ls-read ul { @apply list-disc pl-6; }
+.ls-read ol { @apply list-decimal pl-6; }
+.ls-read li + li { @apply mt-2; }
+
+.ls-read figure img,
+.ls-read video {
+    @apply w-full rounded-frame;
+}
+
+.ls-read figcaption {
+    @apply mt-2 font-sans text-xs text-dim;
+}
+
+.ls-read p:first-child strong:first-child {
+    @apply font-sans text-sm font-bold tracking-wide text-sun;
+}
+
+.ls-read [data-card] a {
+    @apply text-ink no-underline;
+}
+
+.no-scrollbar {
+    scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    @view-transition {
+        navigation: none;
+    }
+}

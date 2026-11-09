@@ -1,0 +1,335 @@
+/*
+ * Template Default — RayaTimes Official ("The News Frame").
+ * Roundedless, transisi halus, skeleton. Newsreader = suara editorial, Inter = informasi.
+ */
+@import 'tailwindcss' source(none);
+@import '@fontsource-variable/newsreader/opsz.css';
+@import '@fontsource-variable/newsreader/opsz-italic.css';
+@import '@fontsource-variable/inter/opsz.css';
+@import 'remixicon/fonts/remixicon.css';
+
+@source '../views';
+@source '../js';
+
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+@theme {
+    --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+    --font-serif: 'Newsreader Variable', Georgia, 'Times New Roman', serif;
+
+    --color-raya: #c62828;
+    --color-raya-deep: #8f2635;
+    --color-sun: #ffc107;
+    --color-ink: #111111;
+
+    /* Permukaan & teks dipetakan ke variabel agar mode gelap cukup menukar nilai. */
+    --color-paper: var(--paper);
+    --color-surface: var(--surface);
+    --color-sunk: var(--sunk);
+    --color-fg: var(--fg);
+    --color-muted: var(--muted);
+    --color-line: var(--line);
+    --color-accent: var(--accent);
+
+    --radius-xs: 0;
+    --radius-sm: 0;
+    --radius: 0;
+    --radius-md: 0;
+    --radius-lg: 0;
+    --radius-xl: 0;
+    --radius-2xl: 0;
+    --radius-3xl: 0;
+    --radius-full: 0;
+
+    --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+    --animate-shimmer: shimmer 1.4s linear infinite;
+
+    @keyframes shimmer {
+        from { background-position: 200% 0; }
+        to { background-position: -200% 0; }
+    }
+}
+
+:root {
+    --paper: #ffffff;
+    --surface: #ffffff;
+    --sunk: #f4f4f4;
+    --fg: #111111;
+    --muted: #5c5c5c;
+    --line: #e4e4e4;
+    --accent: #c62828;
+    --sk-a: #ececec;
+    --sk-b: #f7f7f7;
+    color-scheme: light;
+}
+
+[data-theme='dark'] {
+    --paper: #0f0f0f;
+    --surface: #171717;
+    --sunk: #1f1f1f;
+    --fg: #f1f1f1;
+    --muted: #a3a3a3;
+    --line: #2b2b2b;
+    --accent: #ef5350;
+    --sk-a: #1c1c1c;
+    --sk-b: #262626;
+    color-scheme: dark;
+}
+
+@layer base {
+    *,
+    *::before,
+    *::after {
+        border-radius: 0 !important;
+    }
+
+    html {
+        -webkit-text-size-adjust: 100%;
+        scroll-padding-top: 7rem;
+    }
+
+    body {
+        @apply bg-paper text-fg font-sans antialiased;
+        font-optical-sizing: auto;
+        transition: background-color 0.35s var(--ease-smooth), color 0.35s var(--ease-smooth);
+    }
+
+    ::selection {
+        background: var(--color-sun);
+        color: var(--color-ink);
+    }
+
+    :focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+    }
+
+    a {
+        transition: color 0.2s var(--ease-smooth);
+    }
+}
+
+/* ----------------------------------------------------------- Page transitions */
+@view-transition {
+    navigation: auto;
+}
+
+::view-transition-old(root) {
+    animation: 220ms var(--ease-smooth) both rt-fade-out;
+}
+
+::view-transition-new(root) {
+    animation: 320ms var(--ease-smooth) both rt-fade-in;
+}
+
+::view-transition-group(rt-hero) {
+    animation-duration: 420ms;
+    animation-timing-function: var(--ease-smooth);
+}
+
+@keyframes rt-fade-out {
+    to { opacity: 0; }
+}
+
+@keyframes rt-fade-in {
+    from { opacity: 0; transform: translateY(6px); }
+}
+
+/* ------------------------------------------------------------------ Skeleton */
+@layer components {
+    .sk {
+        background: linear-gradient(90deg, var(--sk-a) 25%, var(--sk-b) 50%, var(--sk-a) 75%);
+        background-size: 200% 100%;
+        animation: var(--animate-shimmer);
+    }
+
+    .sk-line {
+        @apply block h-3;
+        background: linear-gradient(90deg, var(--sk-a) 25%, var(--sk-b) 50%, var(--sk-a) 75%);
+        background-size: 200% 100%;
+        animation: var(--animate-shimmer);
+    }
+
+    /* Wadah gambar: shimmer sampai gambar selesai dimuat lalu memudar masuk. */
+    .rt-media {
+        @apply relative block overflow-hidden;
+        background: linear-gradient(90deg, var(--sk-a) 25%, var(--sk-b) 50%, var(--sk-a) 75%);
+        background-size: 200% 100%;
+        animation: var(--animate-shimmer);
+    }
+
+    .rt-media > img {
+        @apply absolute inset-0 size-full object-cover opacity-0;
+        transition: opacity 0.5s var(--ease-smooth), transform 0.7s var(--ease-smooth);
+    }
+
+    .rt-media.is-loaded {
+        animation: none;
+        background: var(--sunk);
+    }
+
+    .rt-media.is-loaded > img {
+        @apply opacity-100;
+    }
+
+    .group:hover .rt-media.is-loaded > img {
+        transform: scale(1.035);
+    }
+
+    /* Judul berita: garis bawah tumbuh halus saat hover. */
+    .rt-title {
+        @apply font-serif font-semibold text-fg;
+        background-image: linear-gradient(currentColor, currentColor);
+        background-size: 0 1px;
+        background-position: 0 100%;
+        background-repeat: no-repeat;
+        transition: background-size 0.35s var(--ease-smooth), color 0.2s;
+        text-wrap: pretty;
+    }
+
+    .group:hover .rt-title,
+    .rt-title:hover {
+        background-size: 100% 1px;
+    }
+
+    .rt-kanal {
+        @apply text-[11px] font-bold tracking-wide text-accent uppercase;
+    }
+
+    .rt-meta {
+        @apply text-xs text-muted;
+    }
+
+    .rt-section-title {
+        @apply flex items-center gap-2.5 font-serif text-xl font-bold text-fg;
+    }
+
+    .rt-section-title::before {
+        content: '';
+        @apply block h-5 w-1.5 bg-raya;
+    }
+
+    .rt-btn {
+        @apply inline-flex items-center justify-center gap-2 border border-line bg-surface px-5 py-2.5 text-sm font-semibold text-fg;
+        transition: background-color 0.25s var(--ease-smooth), color 0.25s, border-color 0.25s;
+    }
+
+    .rt-btn:hover {
+        @apply border-fg bg-fg text-paper;
+    }
+
+    .rt-btn-solid {
+        @apply border-raya bg-raya text-white;
+    }
+
+    .rt-btn-solid:hover {
+        @apply border-raya-deep bg-raya-deep text-white;
+    }
+
+    .rt-chip {
+        @apply inline-flex items-center border border-line px-3 py-1 text-xs font-medium text-fg;
+        transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+    }
+
+    .rt-chip:hover {
+        @apply border-raya bg-raya text-white;
+    }
+
+    .rt-panel {
+        @apply border border-line bg-surface;
+    }
+
+    .rt-reveal {
+        animation: rt-fade-in 0.45s var(--ease-smooth) both;
+    }
+}
+
+/* ------------------------------------------------------------- Article body */
+.rt-prose {
+    @apply text-[17px] leading-[1.75] text-fg;
+}
+
+.rt-prose > * + * {
+    @apply mt-5;
+}
+
+.rt-prose h2,
+.rt-prose h3,
+.rt-prose h4 {
+    @apply mt-9 font-serif font-bold leading-snug text-fg;
+}
+
+.rt-prose h2 { @apply text-2xl; }
+.rt-prose h3 { @apply text-[22px]; }
+.rt-prose h4 { @apply text-lg; }
+
+.rt-prose a {
+    @apply font-medium text-accent underline decoration-1 underline-offset-4;
+}
+
+.rt-prose a:hover {
+    @apply text-fg;
+}
+
+.rt-prose ul { @apply list-disc pl-6; }
+.rt-prose ol { @apply list-decimal pl-6; }
+.rt-prose li + li { @apply mt-2; }
+
+.rt-prose figure img,
+.rt-prose video {
+    @apply w-full bg-sunk;
+}
+
+.rt-prose figcaption {
+    @apply mt-2 text-xs text-muted;
+}
+
+.rt-prose blockquote {
+    @apply border-l-4 border-raya pl-5 font-serif text-xl italic;
+}
+
+.rt-prose p:first-child strong:first-child {
+    @apply text-accent;
+}
+
+/* --------------------------------------------------------------- Utilities */
+.no-scrollbar {
+    scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+#rt-progress {
+    transform-origin: 0 50%;
+    transform: scaleX(0);
+}
+
+#rt-progress.is-running {
+    animation: rt-progress 1.6s var(--ease-smooth) forwards;
+}
+
+@keyframes rt-progress {
+    0% { transform: scaleX(0); }
+    60% { transform: scaleX(0.7); }
+    100% { transform: scaleX(0.92); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    @view-transition {
+        navigation: none;
+    }
+}
+
+.rt-prose [data-card] a {
+    color: inherit;
+    text-decoration: none;
+}
