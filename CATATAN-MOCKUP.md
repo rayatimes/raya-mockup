@@ -126,7 +126,7 @@ Banner gambar di beranda Wacana (web) dan Lensa Mobile diganti kartu foto dengan
 | Menu | Tiga kolom sama lebar rapat ke tepi; latar bawaan mengikuti latar aplikasi, warna aktif tetap. |
 | Thumbnail terhalang header | Header artikel dan kanal tidak lagi mengambang. Sampul artikel tampil utuh mengikuti rasio aslinya. |
 | Logo mobile | Default dan Lensa kini memakai logo Main (`logo_main`, `logo_main_dark`); Wacana sudah memakainya. |
-| Badan artikel | Teks baca memakai Inter, menggantikan Newsreader. Subjudul dan kutipan tetap Archivo. |
+| Badan artikel | Teks baca memakai Inter, menggantikan Newsreader. Subjudul dan kutipan tetap Archivo. Huruf pertama artikel berupa drop cap kapital seperti Wacana. |
 | Banner setelah headline | Dua banner bertumpuk setelah hero di tab Terbaru, lebar mengikuti layar, dengan jarak dan garis pembatas yang memudar di kedua ujungnya sebelum daftar Terbaru. |
 
 ## File di LUAR `resources/`
