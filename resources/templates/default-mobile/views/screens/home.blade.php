@@ -10,7 +10,7 @@
     {{-- Header: kiri panel kanal, tengah logo, kanan cari dan mode gelap. --}}
     <header class="bar">
         <button type="button" class="bar-btn" data-drawer-open aria-label="Buka kanal, halaman, dan Insight"><i class="ri-menu-line"></i></button>
-        <img src="{{ $site['brand']['logo_dark'] }}" alt="RayaTimes portal" class="bar-logo">
+        <img src="{{ $site['brand']['logo_main_dark'] }}" alt="RayaTimes" class="bar-logo">
         <div class="bar-end">
             <a href="{{ $rt->url('/search') }}" class="bar-btn" aria-label="Cari berita"><i class="ri-search-line"></i></a>
             <button type="button" class="bar-btn" data-theme-toggle aria-label="Ganti mode gelap"><i class="ri-moon-line theme-light"></i><i class="ri-sun-line theme-dark"></i></button>

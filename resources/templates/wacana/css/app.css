@@ -1,12 +1,13 @@
 /*
  * Template Wacana — "The Editorial" (brand guide RayaTimes, layout 03).
- * Konteks lebih dulu: tipografi Newsreader sebagai suara, Inter untuk informasi,
- * dan bidang warna per kanal dari palet sekunder brand.
+ * Konteks lebih dulu: Newsreader khusus judul artikel, Inter untuk semua teks lain
+ * (termasuk bagian template), dan bidang warna per kanal dari palet sekunder brand.
  */
 @import 'tailwindcss' source(none);
 @import '@fontsource-variable/newsreader/opsz.css';
 @import '@fontsource-variable/newsreader/opsz-italic.css';
 @import '@fontsource-variable/inter/opsz.css';
+@import '@fontsource-variable/inter/opsz-italic.css';
 @import 'remixicon/fonts/remixicon.css';
 
 @source '../views';
@@ -99,6 +100,22 @@
         line-height: 1.18;
     }
 
+    /* Judul non-artikel dan bagian template: Inter. */
+    .wc-ui-display {
+        @apply font-sans font-bold tracking-[-0.025em] text-balance;
+        line-height: 1.08;
+    }
+
+    .wc-ui-head {
+        @apply font-sans font-semibold text-pretty;
+        line-height: 1.3;
+    }
+
+    /* Ukuran teks bilah atas, menu kanal, dan sub-menu selalu sama. */
+    .wc-nav-text {
+        @apply text-[13px] xl:text-[13.5px] 2xl:text-[14px];
+    }
+
     .wc-link {
         background-image: linear-gradient(var(--hue, currentColor), var(--hue, currentColor));
         background-size: 0 2px;
@@ -143,28 +160,6 @@
         @apply bg-ink text-paper;
     }
 
-    /* Foto duotone: hitam-putih lalu diwarnai warna kanal; kembali berwarna saat hover. */
-    .wc-duo {
-        @apply relative block overflow-hidden;
-        background: var(--hue);
-    }
-
-    .wc-duo > img {
-        @apply absolute inset-0 size-full object-cover opacity-0;
-        filter: grayscale(1) contrast(1.1);
-        mix-blend-mode: multiply;
-        transition: opacity 0.6s var(--ease-paper), filter 0.6s var(--ease-paper), mix-blend-mode 0s;
-    }
-
-    .wc-duo.is-loaded > img {
-        @apply opacity-100;
-    }
-
-    .group:hover .wc-duo.is-loaded > img {
-        filter: none;
-        mix-blend-mode: normal;
-    }
-
     /* Foto biasa dengan skeleton. */
     .wc-photo {
         @apply relative block overflow-hidden bg-stone;
@@ -194,6 +189,79 @@
     .wc-enter {
         animation: wc-in 0.5s var(--ease-paper) both;
     }
+
+    /* Tajuk beranda: latar utama RayaTimes Insight (#cover), foto tetap hanya di layar lebar. */
+    .wc-tajuk {
+        --hue: var(--color-sun);
+        background-color: var(--color-ink);
+        background-image: linear-gradient(rgb(0 0 0 / 50%), rgb(0 0 0 / 50%)), var(--tajuk-photo);
+        background-position: center;
+        background-size: cover;
+    }
+
+    .wc-tajuk ::selection {
+        background: var(--color-sun);
+        color: var(--color-ink);
+    }
+
+    .wc-tajuk :focus-visible {
+        outline-color: var(--color-sun);
+    }
+
+    @media (min-width: 64rem) {
+        .wc-tajuk {
+            background-attachment: fixed;
+        }
+    }
+
+    /* Ilustrasi latar halaman kanal: gaya cetak blok, warnanya mengikuti warna teks kanal. */
+    .wc-art {
+        --art-accent: var(--color-sun);
+        color: var(--on-hue);
+        pointer-events: none;
+    }
+
+    [data-kanal='analisis'] .wc-art {
+        --art-accent: var(--color-java);
+    }
+
+    .wc-art .t1 { fill: currentColor; fill-opacity: 0.07; }
+    .wc-art .t2 { fill: currentColor; fill-opacity: 0.15; }
+    .wc-art .t3 { fill: currentColor; fill-opacity: 0.28; }
+    .wc-art .t4 { fill: currentColor; fill-opacity: 0.5; }
+    .wc-art .t5 { fill: currentColor; fill-opacity: 0.85; }
+    .wc-art .cut { fill: var(--hue); }
+    .wc-art .ac { fill: var(--art-accent); }
+
+    .wc-art .cutl {
+        fill: none;
+        stroke: var(--hue);
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 5;
+    }
+
+    .wc-art .ln,
+    .wc-art .ln2,
+    .wc-art .acl {
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-opacity: 0.8;
+        stroke-width: 3;
+    }
+
+    .wc-art .ln2 {
+        stroke-opacity: 0.35;
+        stroke-width: 2;
+    }
+
+    .wc-art .acl {
+        stroke: var(--art-accent);
+        stroke-opacity: 1;
+        stroke-width: 4;
+    }
 }
 
 @keyframes wc-shimmer {
@@ -203,9 +271,9 @@
 
 /* Teks artikel */
 .wc-prose {
-    @apply font-serif text-ink;
-    font-size: calc(1.22rem * var(--reader-scale));
-    line-height: 1.72;
+    @apply font-sans text-ink;
+    font-size: calc(1.0625rem * var(--reader-scale));
+    line-height: 1.75;
 }
 
 .wc-prose > * + * {
@@ -213,20 +281,20 @@
 }
 
 .wc-prose > p:first-of-type::first-letter {
-    @apply float-left mr-3 mt-1 font-serif font-semibold text-java;
-    font-size: 4.4em;
-    line-height: 0.82;
+    @apply float-left mr-3 mt-1 font-sans font-bold text-java;
+    font-size: 4em;
+    line-height: 0.85;
 }
 
 .wc-prose p:first-child strong:first-child {
-    @apply font-sans text-[0.78em] font-bold tracking-wide text-java;
+    @apply text-[0.82em] font-bold tracking-wide text-java;
 }
 
 .wc-prose h2,
 .wc-prose h3,
 .wc-prose h4 {
-    @apply mt-[1.8em] font-serif font-semibold leading-tight;
-    font-size: 1.35em;
+    @apply mt-[1.8em] font-sans font-bold leading-tight;
+    font-size: 1.3em;
 }
 
 .wc-prose a {
@@ -246,11 +314,11 @@
 }
 
 .wc-prose figcaption {
-    @apply mt-2 font-sans text-xs text-ash;
+    @apply mt-2 text-xs text-ash;
 }
 
 .wc-prose blockquote {
-    @apply border-l-4 border-java pl-6 text-[1.3em] italic;
+    @apply border-l-4 border-java pl-6 text-[1.2em] font-medium;
 }
 
 .wc-prose [data-card] a {

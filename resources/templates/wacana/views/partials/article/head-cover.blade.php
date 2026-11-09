@@ -12,7 +12,7 @@
                 <p class="mt-4 font-serif text-2xl italic text-java lg:text-3xl">{{ $article['upper'] }}</p>
             @endif
             <h1 class="wc-display {{ $article['upper'] ? 'mt-2' : 'mt-4' }} text-[2.5rem] sm:text-6xl lg:text-[4.2rem]">{{ $article['title'] }}</h1>
-            <p class="mt-6 max-w-3xl font-serif text-xl italic leading-relaxed text-graphite lg:text-2xl">{{ $article['excerpt'] }}</p>
+            <p class="mt-6 max-w-3xl text-lg leading-relaxed text-graphite lg:text-xl">{{ $article['excerpt'] }}</p>
         </div>
 
         {{-- Penulis dan atribut tulisan --}}
@@ -23,16 +23,16 @@
                     @if ($author['avatar'])
                         <img src="{{ $author['avatar'] }}" alt="" class="size-16 shrink-0 object-cover grayscale">
                     @else
-                        <span class="wc-display grid size-16 shrink-0 place-items-center bg-ink text-3xl text-paper">{{ mb_substr($author['name'], 0, 1) }}</span>
+                        <span class="wc-ui-display grid size-16 shrink-0 place-items-center bg-ink text-3xl text-paper">{{ mb_substr($author['name'], 0, 1) }}</span>
                     @endif
                     <div>
                         <p class="text-[13px] text-ash">Ditulis oleh</p>
-                        <a href="{{ $author['url'] }}" class="wc-head text-xl hover:text-java">{{ $author['name'] }}</a>
+                        <a href="{{ $author['url'] }}" class="wc-ui-head text-lg hover:text-java">{{ $author['name'] }}</a>
                         <p class="text-[13px] font-semibold text-java">{{ $author['label'] }}</p>
                     </div>
                 </div>
                 @unless ($many)
-                    <p class="font-serif text-[17px] leading-relaxed text-graphite line-clamp-3">{{ $author['bio'] ?: 'Menulis untuk RayaTimes: fakta yang utuh, konteks yang jernih.' }}</p>
+                    <p class="text-[15px] leading-relaxed text-graphite line-clamp-3">{{ $author['bio'] ?: 'Menulis untuk RayaTimes: fakta yang utuh, konteks yang jernih.' }}</p>
                 @endunless
             @endforeach
             <dl class="grid grid-cols-2 gap-x-6 gap-y-3 text-[15px]">

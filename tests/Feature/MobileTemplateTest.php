@@ -180,4 +180,35 @@ class MobileTemplateTest extends TestCase
             $response->assertDontSee($social);
         }
     }
+
+    #[DataProvider('templates')]
+    public function test_every_template_uses_the_main_logo_instead_of_the_portal_logo(string $template): void
+    {
+        foreach (["/{$template}", "/{$template}".self::ARTICLE] as $path) {
+            $response = $this->get($path);
+
+            $response->assertOk();
+            $response->assertSee('rayatimes_main_', false);
+            $response->assertDontSee('rayatimes_portal_', false);
+        }
+    }
+
+    public function test_lensa_home_shows_banners_between_headline_and_latest_feed(): void
+    {
+        $response = $this->get('/lensa-mobile');
+
+        $response->assertOk();
+        $latestTajuk = $response->viewData('rt')->inCategory('tajuk')[0];
+        $response->assertSeeInOrder(['class="hero"', 'class="home-banners"', '/dummy/banner/insight-cover.webp', 'RayaTimes Insight', 'href="/lensa-mobile/@tajuk"', $latestTajuk['image']['lg'], '>Tajuk<', 'Opini dan Pandangan Editorial Redaksi.', 'ri-arrow-right-up-line home-banner-visit', 'data-scope="latest"'], false);
+        $response->assertDontSee('aplikasi-rayatimes', false);
+    }
+
+    public function test_lensa_article_header_no_longer_floats_over_the_cover(): void
+    {
+        $response = $this->get('/lensa-mobile'.self::ARTICLE.'?_screen=1');
+
+        $response->assertOk();
+        $response->assertSeeInOrder(['class="bar bar-article"', 'data-scroll', 'article-cover'], false);
+        $response->assertDontSee('data-solid-at', false);
+    }
 }

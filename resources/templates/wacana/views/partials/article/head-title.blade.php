@@ -6,7 +6,7 @@
             <p class="mt-5 font-serif text-2xl italic text-java lg:text-3xl">{{ $article['upper'] }}</p>
         @endif
         <h1 class="wc-display {{ $article['upper'] ? 'mt-2' : 'mt-5' }} text-[2.5rem] sm:text-6xl lg:text-[4.2rem]">{{ $article['title'] }}</h1>
-        <p class="mx-auto mt-6 max-w-3xl font-serif text-xl italic leading-relaxed text-graphite lg:text-2xl">{{ $article['excerpt'] }}</p>
+        <p class="mx-auto mt-6 max-w-3xl text-lg leading-relaxed text-graphite lg:text-xl">{{ $article['excerpt'] }}</p>
         <p class="wc-meta mt-6">
             Oleh <x-wacana::author-names :article="$article" />
             · {{ $rt->date($article['published']) }}

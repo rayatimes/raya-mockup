@@ -1,7 +1,7 @@
 @php $site = $rt->site(); @endphp
 <footer class="mt-24 bg-ink text-paper">
     <div class="mx-auto max-w-[84rem] px-4 py-16 lg:px-8">
-        <p class="wc-display max-w-4xl text-4xl lg:text-6xl">Melihat lebih luas, memahami lebih utuh, bertindak lebih solutif.</p>
+        <p class="wc-ui-display max-w-4xl text-3xl lg:text-5xl">Melihat lebih luas, memahami lebih utuh, bertindak lebih solutif.</p>
         <div class="mt-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
             <div>
                 <img src="{{ $site['brand']['logo_main_dark'] }}" alt="RayaTimes" class="h-10 w-auto" loading="lazy">
@@ -10,7 +10,7 @@
             @foreach ($site['footer_columns'] as $column)
                 <div>
                     <h2 class="text-[13px] font-semibold text-beige">{{ $column['title'] }}</h2>
-                    <ul class="mt-4 space-y-2.5 font-serif text-lg">
+                    <ul class="mt-4 space-y-2.5 text-[15px]">
                         @foreach ($column['links'] as $link)
                             <li><a href="{{ $link['url'] }}" class="text-paper/85 transition hover:text-sun">{{ $link['label'] }}</a></li>
                         @endforeach

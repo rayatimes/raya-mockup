@@ -16,9 +16,9 @@ const store = {
     },
 };
 
-/* Foto & duotone: tandai siap setelah termuat. */
+/* Foto: tandai siap setelah termuat. */
 function initPhotos(root = document) {
-    $(root).find('.wc-photo > img, .wc-duo > img').each(function () {
+    $(root).find('.wc-photo > img').each(function () {
         const done = () => this.parentElement.classList.add('is-loaded');
         if (this.complete && this.naturalWidth) done();
         else $(this).one('load error', done);
@@ -177,7 +177,7 @@ function initAuthorsToggle() {
     });
 }
 
-/* Dropdown kanal (desktop): hover/fokus lewat CSS, ketuk panah untuk layar sentuh; Esc/klik luar menutup. */
+/* Dropdown kanal (desktop): hanya dibuka lewat tombol panah; Esc, klik di luar, atau fokus keluar menutup. */
 function initDropdowns() {
     const closeAll = (except) => {
         $('[data-dropdown][data-open="true"]').not(except).attr('data-open', 'false')
@@ -194,8 +194,14 @@ function initDropdowns() {
     $(document).on('click', (event) => {
         if (!$(event.target).closest('[data-dropdown]').length) closeAll();
     });
+    $(document).on('focusin', (event) => {
+        closeAll($(event.target).closest('[data-dropdown]'));
+    });
     $(document).on('keydown', (event) => {
-        if (event.key === 'Escape') closeAll();
+        if (event.key !== 'Escape') return;
+        const focusedItem = $(document.activeElement).closest('[data-dropdown][data-open="true"]');
+        closeAll();
+        focusedItem.find('[data-dropdown-toggle]').trigger('focus');
     });
 }
 

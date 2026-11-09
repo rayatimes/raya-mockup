@@ -201,6 +201,16 @@ return [
             'height' => 554,
         ],
     ],
+    // Banner foto dengan teks di atasnya (Wacana dan Lensa Mobile). Foto banner Tajuk diambil dari artikel Tajuk terbaru.
+    'insight_banner' => [
+        'title' => 'RayaTimes Insight',
+        'text' => 'Menelusuri Fakta. Menemukan Makna.',
+        'image' => '/dummy/banner/insight-cover.webp',
+    ],
+    'tajuk_banner' => [
+        'title' => 'Tajuk',
+        'text' => 'Opini dan Pandangan Editorial Redaksi.',
+    ],
     // Urutan kanal di beranda (hasil meeting 28/10/2026): setelah Terkini.
     'home_sections' => [
         'ekonomi',

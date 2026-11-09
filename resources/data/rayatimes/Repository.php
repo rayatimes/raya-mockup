@@ -237,6 +237,35 @@ final class Repository
     }
 
     /**
+     * Banner foto beranda: sampul Insight dan kanal Tajuk dengan foto artikel Tajuk terbaru.
+     *
+     * @return array<int, array{slug: string, title: string, text: string, image: string, url: string, is_external: bool}>
+     */
+    public function featureBanners(): array
+    {
+        $banners = [[
+            ...$this->site['insight_banner'],
+            'slug' => 'insight',
+            'url' => $this->site['insight_url'],
+            'is_external' => true,
+        ]];
+
+        $latestTajuk = $this->inCategory('tajuk')[0] ?? null;
+
+        if ($latestTajuk) {
+            $banners[] = [
+                ...$this->site['tajuk_banner'],
+                'slug' => 'tajuk',
+                'image' => $latestTajuk['image']['lg'],
+                'url' => $this->category('tajuk')['url'],
+                'is_external' => false,
+            ];
+        }
+
+        return $banners;
+    }
+
+    /**
      * Menu utama portal (kanal induk + sub-kanal), mengikuti urutan situs resmi.
      *
      * @return array<int, array<string, mixed>>

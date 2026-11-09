@@ -52,7 +52,7 @@ Keduanya tidak meniru situs tertentu. Acuan utamanya pedoman brand sendiri.
 
 | Template | Acuan | Sentuhan pengembangan |
 | --- | --- | --- |
-| Lensa | Layout 02 The Story Frame, eksplorasi Condensed Display, dan pola story yang umum di media sosial | Hero story otomatis dengan bilah progres, judul di atas foto dengan gradasi, mode terang beraksen merah. Aplikasi: header mengambang, panel kanal bergambar, rel Berita Terkait. |
+| Lensa | Layout 02 The Story Frame, eksplorasi Condensed Display, dan pola story yang umum di media sosial | Hero story otomatis dengan bilah progres, judul di atas foto dengan gradasi, mode terang beraksen merah. Aplikasi: header hitam, tanpa sudut membulat, panel kanal bergambar, rel Berita Terkait. |
 | Wacana | Layout 03 The Editorial, palet sekunder brand, dan kebutuhan audiens di pedoman | Warna per kanal, drop cap, ukuran huruf, mode fokus, headline dari kanal berbeda. Aplikasi: mode gelap baru, bidang warna kanal. |
 
 Dari `voltagent/awesome-design-md`, hanya analisis Al Jazeera yang dibaca sebelum template dibuat, sebagai pembanding umum. Analisis The Verge dan Wired baru disalin ke skill `news-design-references` setelah ketiga template selesai, jadi bukan dasar desainnya. `taste-skill` dan `frontend-design` dipakai sebagai panduan kualitas, bukan acuan tampilan.
@@ -65,7 +65,7 @@ Masing-masing mengambil satu dari tiga layout di *Visual Identity RayaTimes* (ba
 | --- | --- | --- | --- |
 | **Default** (RayaTimes resmi) | 01 The News Frame | Semua pembaca, mengikuti struktur situs resmi | Tanpa sudut membulat, transisi halaman halus (View Transitions), skeleton pada gambar, muat-lebih-banyak, dan pencarian instan. Mode terang/gelap. Newsreader + Inter, Raya Red + aksen kuning. |
 | **Lensa** | 02 The Story Frame | Audiens tersier, pembaca mobile | Foto sebagai pembawa cerita: hero bergaya *story* (autoplay + bilah progres), kartu judul di atas foto, rel geser, pencarian layar penuh (tombol `/`), tab bar bawah di mobile. Mode gelap (bawaan, aksen kuning) dan mode terang (aksen Raya Red). Archivo condensed (eksplorasi "Condensed Display" dari brand guide) + Newsreader untuk teks baca. |
-| **Wacana** | 03 The Editorial | Audiens primer: profesional, pembuat kebijakan, akademisi | Bidang warna per kanal dari palet sekunder brand, foto duotone, Tajuk di bidang Warm Beige, pengatur ukuran huruf dan mode fokus di artikel. |
+| **Wacana** | 03 The Editorial | Audiens primer: profesional, pembuat kebijakan, akademisi | Bidang warna per kanal dari palet sekunder brand, Newsreader khusus judul artikel (selain itu Inter), ilustrasi latar per kanal, Tajuk berlatar utama RayaTimes Insight, pengatur ukuran huruf dan mode fokus di artikel. |
 
 Halaman yang tersedia di ketiga template: beranda, detail artikel, kanal (`/@slug`), indeks (`/index`), pencarian (`/search`), topik (`/tag`, `/tag/slug`), profil penulis (`/u/username`), halaman statis (`/p/slug`), media (`/media`, `/media/photo/slug`), siniar (`/podcast`), dan 404.
 
@@ -97,12 +97,44 @@ Dokumen untuk pembaca non-teknis: karakter, tipografi, warna, struktur dan alasa
 
 Data yang mendukung keputusan ini ada di `resources/data/rayatimes/site.php`: `home_banners` (dua banner) dan `home_sections` (urutan kanal). Urutan kanal cukup diubah di sana.
 
+## Revisi Wacana 9 November 2026
+
+| Permintaan | Yang dikerjakan |
+| --- | --- |
+| Newsreader hanya untuk judul artikel | Isi artikel, ringkasan, judul seksi, judul kanal, nama penulis, footer, dan bagian template lain memakai Inter (kelas `wc-ui-display`, `wc-ui-head`). Judul artikel tetap `wc-display` dan `wc-head`. Upper title diperlakukan sebagai bagian judul sehingga tetap Newsreader. |
+| Tagline header | Inter tebal, 18px di ponsel dan 20px di desktop. |
+| Ukuran teks bilah atas, menu, dan sub-menu | Satu kelas `wc-nav-text`: 13px, 13,5px di `xl`, 14px di `2xl`; semuanya Inter. |
+| Menu dan dropdown terpisah | "Semua {kanal}" dihapus. Tombol menu menuju halaman kanal; dropdown hanya dibuka tombol panah, ditutup Esc, klik di luar, atau fokus keluar. |
+| Ilustrasi latar halaman kanal | 23 ilustrasi SVG dalam `views/partials/kanal-art/`, satu per kanal dan sub-kanal, dipanggil lewat komponen `kanal-art`. Warna mengikuti warna teks kanal. Di bawah `lg` ilustrasi berada di atas teks agar tidak saling menimpa. |
+| Urutan kolom samping | Paling banyak dibaca di atas, Sedang tren di bawahnya. |
+| Pembatas seksi | Pembatas Terkini dan daftar kanal setipis garis menu (3px) dan selalu hitam. |
+| Tajuk bawah: isi | Satu tajuk utama dengan foto, sisanya daftar. |
+| Tajuk bawah: latar | Mengikuti `#cover` di insight.rayatimes.id: gambar yang sama, lapisan hitam 50%, `cover`, `fixed` mulai `lg`. |
+| Foto kartu Analisis & perspektif dan Untuk memahami lebih utuh | Efek duotone dihapus dari template; foto tampil asli tanpa perlu hover. |
+| Judul daftar artikel diperbesar | Daftar artikel 22px di ponsel dan 26px mulai `sm`, termasuk hasil muat-lebih-banyak; daftar headline samping 20px dan 22px. |
+
+## Banner foto Wacana dan Lensa Mobile (9 November 2026)
+
+Banner gambar di beranda Wacana (web) dan Lensa Mobile diganti kartu foto dengan lapisan gelap dan teks asli di atasnya, lewat `Repository::featureBanners()`. Insight memakai sampul `insight.rayatimes.id`; Tajuk memakai foto artikel Tajuk terbaru dengan deskripsi singkat (`tajuk_banner` di `site.php`), dan menuju halaman kanal Tajuk. Kedua banner punya ikon kunjungi di kanan bawah. Banner unduh aplikasi tidak lagi tampil di kedua template itu. `home_banners` tetap dipakai beranda Default dan Lensa web.
+
+## Revisi Lensa Mobile 9 November 2026
+
+| Permintaan | Yang dikerjakan |
+| --- | --- |
+| Header hitam | Header semua layar (`.bar`, `.appbar`, `.searchbar`, `.drawer-head`) berlatar `#111111` di kedua tema; status bar selalu putih. |
+| Tanpa sudut membulat | Semua `border-radius` aplikasi dihapus, termasuk avatar, sakelar, dan pil pembaca. Yang tetap melengkung: rangka iPhone, layar perangkat, Dynamic Island, dan home indicator. |
+| Menu | Tiga kolom sama lebar rapat ke tepi; latar bawaan mengikuti latar aplikasi, warna aktif tetap. |
+| Thumbnail terhalang header | Header artikel dan kanal tidak lagi mengambang. Sampul artikel tampil utuh mengikuti rasio aslinya. |
+| Logo mobile | Default dan Lensa kini memakai logo Main (`logo_main`, `logo_main_dark`); Wacana sudah memakainya. |
+| Banner setelah headline | Dua banner bertumpuk setelah hero di tab Terbaru, lebar mengikuti layar, dengan jarak dan garis pembatas yang memudar di kedua ujungnya sebelum daftar Terbaru. |
+
 ## File di LUAR `resources/`
 
 ### Diubah
 
 | File | Perubahan |
 | --- | --- |
+| `.gitignore` | Menambahkan `.claude/settings.local.json` karena berisi path khusus mesin lokal. |
 | `routes/web.php` | Rute `welcome` diganti dengan `require __DIR__.'/mockup.php'`. |
 | `bootstrap/app.php` | Mendaftarkan `PreventSearchIndexing` sebagai middleware global. |
 | `public/robots.txt` | Melarang semua crawler dari seluruh situs (`Disallow: /`). **Wajib dikembalikan saat situs resmi dibuka untuk mesin pencari**, bersama pencabutan middleware di atas. |
@@ -120,6 +152,7 @@ Data yang mendukung keputusan ini ada di `resources/data/rayatimes/site.php`: `h
 | --- | --- |
 | `routes/mockup.php` | Semua rute mockup, dikelompokkan per template di bawah `/default`, `/lensa`, `/wacana` (nama rute `mockup.{template}.*`), termasuk endpoint JSON `/{template}/_mock/articles` untuk muat-lebih-banyak dan pencarian instan. Middleware sesi & CSRF dilepas di grup ini karena tabel `sessions` belum dimigrasi. |
 | `public/dummy/` | Gambar dummy (35 MB): foto artikel yang sudah dioptimasi ke WebP (versi `-lg` 1280px dan `-sm` 560px), avatar penulis, infografis, logo & lencana unduhan aplikasi. |
+| `public/dummy/banner/insight-cover.webp` | Latar Tajuk Wacana dan banner Insight (Wacana, Lensa Mobile), konversi WebP dari `rayatimes-lapsus-hero.png` milik insight.rayatimes.id. |
 | `public/dummy/banner/` | Dua gambar banner beranda: `rayatimes-insight.webp` (salinan aset Insight) dan `aplikasi-rayatimes.webp` (promo aplikasi, dibuat dengan font & warna brand). |
 | `public/build/` | Hasil `npm run build`. |
 | `boost.json`, `.mcp.json`, `.claude/skills/{deploying-to-cloud,infer-conventions,laravel-best-practices,tailwindcss-development,testing-best-practices}` | Dibuat oleh Laravel Boost. |
@@ -133,6 +166,7 @@ Data yang mendukung keputusan ini ada di `resources/data/rayatimes/site.php`: `h
 | `app/Http/Middleware/PreventSearchIndexing.php`, `tests/Feature/PreventSearchIndexingTest.php` | Header `X-Robots-Tag` di semua respons Laravel (termasuk 404 dan pengalihan) beserta ujinya. File statis tidak melewati Laravel, jadi dicakup `robots.txt`. |
 | `tests/Feature/TemplatePathTest.php` | Uji pemisahan path template: pengalihan dari `/` dan URL lama, tautan tetap di dalam template, 404 per template, pemilih template, endpoint JSON. |
 | `tests/Feature/MobileTemplateTest.php`, `tests/Browser/mobile.mjs` | Uji aturan mockup aplikasi: ukuran layar, urutan header, tiga menu, Unggulan, susunan artikel, Untuk Anda, dan hilangnya fitur sosial. |
+| `tests/Feature/WacanaTemplateTest.php` | Uji revisi Wacana: ilustrasi tiap kanal, dropdown, urutan kolom samping, pembatas seksi, dan Tajuk. |
 | `CATATAN-MOCKUP.md` | Dokumen ini. |
 | `Profil-Desain-RayaTimes.pdf` | Profil desain 15 halaman (A4 mendatar) untuk pembaca non-teknis, mencakup portal web dan aplikasi: fondasi brand, kerangka aplikasi dan perubahannya, tiga halaman per template (profil, identitas visual, web dan aplikasi), acuan dan pengembangan Lensa serta Wacana, dan perbandingan. Tangkapan layarnya perlu dibuat ulang bila tampilan berubah. |
 
@@ -275,7 +309,7 @@ Sumber: source portal lama (`resources/js/pages/portal`, `components/portal`, `l
 
 ### Ada di mockup, tidak ada di existing
 
-Banner 2 kolom; widget Sedang tren bergaya X; kolom "Detik ini" (Lensa); hero story (Lensa); mode terang/gelap Lensa; tab bar bawah (Lensa); headline beragam kanal, indeks topik A–Z, warna per kanal & foto duotone (Wacana); kontrol ukuran huruf & mode fokus (Wacana); garis progres baca; transisi halaman & foto "terbang" (View Transitions); paksa tata letak artikel `?tata=judul|cover`; pemilih template.
+Banner 2 kolom; widget Sedang tren bergaya X; kolom "Detik ini" (Lensa); hero story (Lensa); mode terang/gelap Lensa; tab bar bawah (Lensa); headline beragam kanal, indeks topik A–Z, warna per kanal (Wacana); kontrol ukuran huruf & mode fokus (Wacana); garis progres baca; transisi halaman & foto "terbang" (View Transitions); paksa tata letak artikel `?tata=judul|cover`; pemilih template.
 
 ## Catatan lanjutan
 

@@ -12,11 +12,11 @@
         <div class="lg:col-span-8">
             <form action="{{ $rt->url('/search') }}" class="flex items-end gap-3 border-b-[3px] border-ink pb-3">
                 <label for="q-page" class="sr-only">Kata kunci</label>
-                <input id="q-page" name="q" type="search" value="{{ $query }}" placeholder="Cari isu, tokoh, atau peristiwa…" class="wc-display w-full bg-transparent text-4xl placeholder:text-ash/50 focus:outline-none lg:text-5xl">
+                <input id="q-page" name="q" type="search" value="{{ $query }}" placeholder="Cari isu, tokoh, atau peristiwa…" class="wc-ui-display w-full bg-transparent text-4xl placeholder:text-ash/50 focus:outline-none lg:text-5xl">
                 <button class="wc-btn shrink-0">Cari</button>
             </form>
             @if ($query)
-                <p class="mt-4 font-serif text-lg text-graphite">{{ count($results) }} tulisan memuat “{{ $query }}”.</p>
+                <p class="mt-4 text-base text-graphite">{{ count($results) }} tulisan memuat “{{ $query }}”.</p>
                 @if ($tags || $authors)
                     <p class="mt-4 text-[15px] leading-loose">
                         <span class="text-ash">Mungkin maksud Anda:</span>
@@ -29,8 +29,8 @@
                         <x-wacana::entry :article="$item" :rt="$rt" />
                     @empty
                         <div class="bg-stone p-8">
-                            <p class="wc-display text-3xl">Belum ada tulisan tentang “{{ $query }}”</p>
-                            <p class="mt-2 font-serif text-lg text-graphite">Coba kata yang lebih umum, atau telusuri indeks topik.</p>
+                            <p class="wc-ui-display text-2xl">Belum ada tulisan tentang “{{ $query }}”</p>
+                            <p class="mt-2 text-base text-graphite">Coba kata yang lebih umum, atau telusuri indeks topik.</p>
                             <a href="{{ $rt->url('/tag') }}" class="wc-btn mt-5">Buka indeks topik</a>
                         </div>
                     @endforelse

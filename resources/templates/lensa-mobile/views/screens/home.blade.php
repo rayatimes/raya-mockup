@@ -11,8 +11,7 @@
     <header class="bar">
         <button type="button" class="bar-btn" data-drawer-open aria-label="Buka kanal, halaman, dan Insight"><i class="ri-menu-2-line"></i></button>
         <span class="bar-brand">
-            <img src="{{ $site['brand']['logo_dark'] }}" alt="RayaTimes portal" class="bar-logo logo-on-dark">
-            <img src="{{ $site['brand']['logo'] }}" alt="RayaTimes portal" class="bar-logo logo-on-light">
+            <img src="{{ $site['brand']['logo_main_dark'] }}" alt="RayaTimes" class="bar-logo">
         </span>
         <div class="bar-end">
             <a href="{{ $rt->url('/search') }}" class="bar-btn" aria-label="Cari berita"><i class="ri-search-line"></i></a>
@@ -49,6 +48,22 @@
                     @endforeach
                 </div>
             </div>
+
+            {{-- Banner foto dengan teks di atasnya, lalu pembatas sebelum daftar Terbaru --}}
+            <section class="home-banners" aria-label="Banner">
+                @foreach ($rt->featureBanners() as $banner)
+                    <a href="{{ $banner['url'] }}" @if ($banner['is_external']) target="_blank" rel="noopener" @endif class="home-banner">
+                        <img src="{{ $banner['image'] }}" alt="" loading="lazy">
+                        <span class="home-banner-text">
+                            <span class="home-banner-copy">
+                                <span class="home-banner-title">{{ $banner['title'] }}</span>
+                                <span class="home-banner-note">{{ $banner['text'] }}</span>
+                            </span>
+                            <i class="ri-arrow-right-up-line home-banner-visit" aria-hidden="true"></i>
+                        </span>
+                    </a>
+                @endforeach
+            </section>
 
             <div data-feed data-scope="latest" data-offset="10" data-per="10" data-bands="1" data-last-band="{{ $lastBand }}" data-exclude="{{ implode(',', $exclude) }}">
                 @include('lensa-mobile::partials.rows', ['items' => $latest, 'bands' => true])

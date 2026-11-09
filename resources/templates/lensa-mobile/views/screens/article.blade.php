@@ -9,14 +9,13 @@
     $shareUrl = 'https://rayatimes.id/'.$article['category']['slug'].'/'.$article['slug'];
     $authors = $article['authors'];
 @endphp
-<div class="scr" data-sb="light" data-solid="false" data-solid-at="cover" data-article data-slug="{{ $article['slug'] }}" data-cat="{{ $channelRoot }}" data-title="{{ $article['title'] }}" data-url="{{ $shareUrl }}">
+<div class="scr" data-sb="light" data-article data-slug="{{ $article['slug'] }}" data-cat="{{ $channelRoot }}" data-title="{{ $article['title'] }}" data-url="{{ $shareUrl }}">
     {{-- Header: kiri kembali dan logo, kanan simpan, ukuran teks, bagikan. --}}
-    <header class="bar bar-float bar-article">
+    <header class="bar bar-article">
         <div class="bar-start">
             <button type="button" class="bar-btn" data-back aria-label="Kembali"><i class="ri-arrow-left-s-line"></i></button>
             <span class="bar-brand">
-                <img src="{{ $site['brand']['logo_dark'] }}" alt="RayaTimes portal" class="bar-logo logo-on-dark">
-                <img src="{{ $site['brand']['logo'] }}" alt="RayaTimes portal" class="bar-logo logo-on-light">
+                <img src="{{ $site['brand']['logo_main_dark'] }}" alt="RayaTimes" class="bar-logo">
             </span>
         </div>
         <div class="bar-end">

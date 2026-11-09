@@ -17,7 +17,7 @@
                 @if ($layout === 'judul')
                     <div class="border-t-[6px] border-(--hue) pt-4 [.is-focus_&]:hidden">
                         <p class="text-[13px] font-semibold text-ash">Waktu baca</p>
-                        <p class="wc-display text-3xl">{{ $article['reading_time'] }} menit</p>
+                        <p class="wc-ui-display text-2xl">{{ $article['reading_time'] }} menit</p>
                     </div>
                 @endif
                 <div class="space-y-2">
@@ -41,7 +41,7 @@
                         @if (($i === 4 && isset($sidenotes[0])) || ($i === 10 && isset($sidenotes[1])))
                             @php $note = $sidenotes[$i === 4 ? 0 : 1]; @endphp
                             <aside data-card data-kanal="{{ $note['category']['slug'] }}" class="group !my-10 border-y-[3px] border-(--hue) py-5 xl:hidden [.is-focus_&]:hidden">
-                                <p class="font-sans text-[13px] font-semibold text-(--hue)">Baca juga</p>
+                                <p class="text-[13px] font-semibold text-(--hue)">Baca juga</p>
                                 <a href="{{ $note['url'] }}" class="wc-head wc-link mt-1 block text-2xl">{{ $note['title'] }}</a>
                             </aside>
                         @endif
@@ -66,12 +66,12 @@
                         @if ($author['avatar'])
                             <img src="{{ $author['avatar'] }}" alt="" class="size-16 shrink-0 object-cover grayscale">
                         @else
-                            <span class="wc-display grid size-16 shrink-0 place-items-center bg-ink text-3xl text-paper">{{ mb_substr($author['name'], 0, 1) }}</span>
+                            <span class="wc-ui-display grid size-16 shrink-0 place-items-center bg-ink text-3xl text-paper">{{ mb_substr($author['name'], 0, 1) }}</span>
                         @endif
                         <div>
                             <p class="text-[13px] text-ash">{{ $author['label'] }}</p>
-                            <a href="{{ $author['url'] }}" class="wc-head text-xl hover:text-java">{{ $author['name'] }}</a>
-                            <p class="mt-1 font-serif text-[17px] text-graphite">{{ $author['bio'] ?: 'Menulis untuk RayaTimes: fakta yang utuh, konteks yang jernih.' }}</p>
+                            <a href="{{ $author['url'] }}" class="wc-ui-head text-lg hover:text-java">{{ $author['name'] }}</a>
+                            <p class="mt-1 text-[15px] text-graphite">{{ $author['bio'] ?: 'Menulis untuk RayaTimes: fakta yang utuh, konteks yang jernih.' }}</p>
                         </div>
                     </div>
                 @endforeach

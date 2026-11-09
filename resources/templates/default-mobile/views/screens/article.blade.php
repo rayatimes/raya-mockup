@@ -14,7 +14,7 @@
     <header class="bar bar-article">
         <div class="bar-start">
             <button type="button" class="bar-btn" data-back aria-label="Kembali"><i class="ri-arrow-left-s-line"></i></button>
-            <img src="{{ $site['brand']['logo_dark'] }}" alt="RayaTimes portal" class="bar-logo">
+            <img src="{{ $site['brand']['logo_main_dark'] }}" alt="RayaTimes" class="bar-logo">
         </div>
         <div class="bar-end">
             <button type="button" class="bar-btn" data-save aria-pressed="false" aria-label="Simpan berita"><i class="ri-bookmark-line save-off"></i><i class="ri-bookmark-fill save-on"></i></button>

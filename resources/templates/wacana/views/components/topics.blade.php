@@ -5,7 +5,7 @@
     $max = max(array_column($topics, 'recent') ?: [1]);
 @endphp
 <section {{ $attributes }}>
-    <h2 class="wc-display text-2xl">Isu paling banyak diberitakan</h2>
+    <h2 class="wc-ui-display text-2xl">Isu paling banyak diberitakan</h2>
     <p class="wc-meta mt-1">Jumlah berita dalam dua hari terakhir</p>
     <ul class="mt-5 space-y-3">
         @foreach ($topics as $topic)

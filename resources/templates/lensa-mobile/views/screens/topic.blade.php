@@ -6,7 +6,7 @@
     $cover = $list[0] ?? null;
 @endphp
 <div class="scr" data-sb="light" data-solid="false" data-solid-at="170">
-    <header class="appbar appbar-float">
+    <header class="appbar appbar-topic">
         <button type="button" class="icon-btn" data-back aria-label="Kembali"><i class="ri-arrow-left-s-line"></i></button>
         <h1 class="appbar-title">{{ $topic['name'] }}</h1>
     </header>

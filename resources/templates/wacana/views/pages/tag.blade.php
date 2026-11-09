@@ -9,8 +9,8 @@
     <div class="mx-auto mt-12 grid max-w-[84rem] gap-12 px-4 lg:grid-cols-12 lg:px-8">
         <div class="lg:col-span-8">
             <p class="text-sm font-semibold text-java">Topik</p>
-            <h1 class="wc-display mt-2 text-6xl lg:text-7xl">{{ $tag['name'] }}</h1>
-            <p class="mt-4 font-serif text-xl text-graphite">
+            <h1 class="wc-ui-display mt-2 text-5xl lg:text-6xl">{{ $tag['name'] }}</h1>
+            <p class="mt-4 text-lg text-graphite">
                 {{ count($items) }} tulisan tentang {{ $tag['name'] }}@if ($first), pertama kali diberitakan {{ $rt->date($first['published'], false) }}@endif.
             </p>
             <div id="tag-list" class="mt-10 divide-y divide-ink/10 border-t-[3px] border-ink">

@@ -9,8 +9,8 @@
     $today = $rt->now()->locale('id')->translatedFormat('l, j F Y');
 @endphp
 <header data-masthead class="bg-paper">
-    <div class="mx-auto flex max-w-[84rem] items-center justify-between gap-4 px-4 py-3 text-[13px] text-graphite lg:px-8">
-        <p class="hidden sm:block">{{ $today }}</p>
+    <div class="wc-nav-text mx-auto flex max-w-[84rem] items-center justify-between gap-4 px-4 py-3 text-graphite lg:px-8">
+        <p class="hidden font-medium sm:block">{{ $today }}</p>
         <div class="ml-auto flex items-center gap-1">
             <button type="button" data-open-panel="wc-search" aria-expanded="false" class="flex items-center gap-2 px-3 py-2 font-medium transition hover:bg-stone"><i class="ri-search-2-line text-base"></i>Cari</button>
             <a href="#" class="px-3 py-2 font-medium transition hover:bg-stone">Masuk</a>
@@ -21,7 +21,7 @@
         <a href="{{ $rt->url('/') }}" class="inline-block" aria-label="RayaTimes — beranda">
             <img src="{{ $site['brand']['logo_main'] }}" alt="RayaTimes" class="mx-auto h-12 w-auto sm:h-16 lg:h-20" width="300 " height="71">
         </a>
-        <p class="mt-3 font-serif text-base italic text-graphite lg:text-lg"><span class="font-[800]">Fakta, Makna, Daya Bangsa</span></p>
+        <p class="mt-3 text-lg font-bold italic text-ink lg:text-xl">Fakta, Makna, Daya Bangsa</p>
     </div>
 </header>
 
@@ -32,28 +32,27 @@
             <img src="{{ $site['brand']['logo'] }}" alt="RayaTimes" class="h-7 w-auto max-w-none">
         </a>
         {{-- Ponsel & tablet: tombol sidenav --}}
-        <button type="button" data-sidenav-open aria-controls="wc-sidenav" aria-expanded="false" class="flex items-center gap-2 py-3 pr-3 text-[14px] font-semibold lg:hidden">
+        <button type="button" data-sidenav-open aria-controls="wc-sidenav" aria-expanded="false" class="wc-nav-text flex items-center gap-2 py-3 pr-3 font-semibold lg:hidden">
             <i class="ri-menu-line text-lg"></i>Kanal
         </button>
         <a href="{{ $rt->url('/search') }}" class="ml-auto grid size-9 place-items-center transition hover:bg-stone lg:hidden" aria-label="Cari"><i class="ri-search-2-line"></i></a>
 
-        {{-- Desktop: kanal bersub-kanal punya dropdown (hover, fokus, atau ketuk panah) --}}
+        {{-- Desktop: tombol menu menuju halaman kanal; tombol panah terpisah membuka sub-kanal --}}
         <ul class="hidden flex-1 justify-center lg:flex">
             @foreach ($nav as $item)
                 <li data-kanal="{{ $item['slug'] }}" @if ($item['children']) data-dropdown data-open="false" @endif class="group/nav relative flex items-center">
                     <a href="{{ $item['url'] }}" @if ($activeSlug === $item['slug']) aria-current="page" @endif
-                        @class(['relative block whitespace-nowrap py-3 text-[13px] font-semibold text-graphite transition hover:text-ink aria-[current=page]:text-ink xl:text-[13.5px] 2xl:text-[14px]', 'pl-1.5 pr-0.5 xl:pl-2 2xl:pl-3' => $item['children'], 'px-1.5 xl:px-2 2xl:px-3' => ! $item['children']])>
+                        class="wc-nav-text relative block whitespace-nowrap px-1.5 py-3 font-semibold text-graphite transition hover:text-ink aria-[current=page]:text-ink xl:px-2 2xl:px-3">
                         {{ $item['name'] }}
                         <span class="absolute inset-x-1.5 -bottom-[3px] h-[3px] origin-left scale-x-0 bg-(--hue) transition-transform duration-300 xl:inset-x-2 2xl:inset-x-3 [a:hover>&]:scale-x-100 [a[aria-current=page]>&]:scale-x-100"></span>
                     </a>
                     @if ($item['children'])
-                        <button type="button" data-dropdown-toggle aria-expanded="false" aria-controls="wc-dd-{{ $item['slug'] }}" aria-label="Buka sub-kanal {{ $item['name'] }}" class="grid h-full place-items-center pr-1 text-graphite 2xl:pr-2 transition hover:text-ink">
-                            <i class="ri-arrow-down-s-line transition-transform duration-300 group-hover/nav:rotate-180 group-data-[open=true]/nav:rotate-180"></i>
+                        <button type="button" data-dropdown-toggle aria-expanded="false" aria-controls="wc-dd-{{ $item['slug'] }}" aria-label="Buka sub-kanal {{ $item['name'] }}" class="-ml-1 mr-0.5 grid h-full w-5 place-items-center text-graphite transition hover:bg-stone hover:text-ink group-data-[open=true]/nav:bg-stone group-data-[open=true]/nav:text-ink">
+                            <i class="ri-arrow-down-s-line transition-transform duration-300 group-data-[open=true]/nav:rotate-180"></i>
                         </button>
-                        <div id="wc-dd-{{ $item['slug'] }}" class="invisible absolute left-0 top-full z-10 mt-[3px] min-w-60 -translate-y-1 border-t-[6px] border-(--hue) bg-paper py-2 opacity-0 shadow-[0_30px_60px_-30px_rgb(0_0_0/0.45)] ring-1 ring-ink/10 transition duration-200 group-hover/nav:visible group-hover/nav:translate-y-0 group-hover/nav:opacity-100 group-focus-within/nav:visible group-focus-within/nav:translate-y-0 group-focus-within/nav:opacity-100 group-data-[open=true]/nav:visible group-data-[open=true]/nav:translate-y-0 group-data-[open=true]/nav:opacity-100">
-                            <a href="{{ $item['url'] }}" class="block px-5 py-2 font-serif text-[17px] font-semibold hover:bg-stone">Semua {{ $item['name'] }}</a>
+                        <div id="wc-dd-{{ $item['slug'] }}" class="invisible absolute left-0 top-full z-10 mt-[3px] min-w-48 -translate-y-1 border-t-[3px] border-(--hue) bg-paper py-2 opacity-0 shadow-[0_30px_60px_-30px_rgb(0_0_0/0.45)] ring-1 ring-ink/10 transition duration-200 group-data-[open=true]/nav:visible group-data-[open=true]/nav:translate-y-0 group-data-[open=true]/nav:opacity-100">
                             @foreach ($item['children'] as $child)
-                                <a href="{{ $child['url'] }}" class="block px-5 py-2 font-serif text-[17px] text-graphite hover:bg-stone hover:text-ink">{{ $child['name'] }}</a>
+                                <a href="{{ $child['url'] }}" class="wc-nav-text block px-4 py-2 font-medium text-graphite hover:bg-stone hover:text-ink">{{ $child['name'] }}</a>
                             @endforeach
                         </div>
                     @endif
@@ -71,7 +70,7 @@
             <div>
                 <form action="{{ $rt->url('/search') }}" class="flex items-end gap-3 border-b-2 border-ink pb-2">
                     <label for="wc-q" class="sr-only">Cari</label>
-                    <input id="wc-q" name="q" type="search" autocomplete="off" data-live-search="#wc-hits" placeholder="Cari isu, tokoh, atau peristiwa…" class="wc-display w-full bg-transparent text-3xl placeholder:text-ash/60 focus:outline-none lg:text-4xl">
+                    <input id="wc-q" name="q" type="search" autocomplete="off" data-live-search="#wc-hits" placeholder="Cari isu, tokoh, atau peristiwa…" class="wc-ui-display w-full bg-transparent text-2xl placeholder:text-ash/60 focus:outline-none lg:text-3xl">
                     <button class="wc-btn shrink-0">Cari</button>
                 </form>
                 <div id="wc-hits" class="mt-4 divide-y divide-ink/10"></div>
@@ -80,7 +79,7 @@
                 <p class="text-[13px] font-semibold text-ash">Isu yang sedang dibicarakan</p>
                 <ul class="mt-3 space-y-2">
                     @foreach ($rt->hitTopics(6) as $topic)
-                        <li><a href="{{ $topic['url'] }}" class="wc-head text-lg hover:text-java">{{ $topic['name'] }}</a></li>
+                        <li><a href="{{ $topic['url'] }}" class="wc-ui-head text-[15px] hover:text-java">{{ $topic['name'] }}</a></li>
                     @endforeach
                 </ul>
             </div>
@@ -102,7 +101,7 @@
                     @php $isActive = $activeSlug === $item['slug']; @endphp
                     <li data-kanal="{{ $item['slug'] }}" @if ($item['children']) data-accordion data-open="{{ $isActive ? 'true' : 'false' }}" @endif class="group/acc">
                         <div class="flex items-stretch">
-                            <a href="{{ $item['url'] }}" @if ($isActive) aria-current="page" @endif class="flex flex-1 items-center gap-3 px-5 py-3.5 font-serif text-xl font-semibold transition hover:bg-stone aria-[current=page]:text-java">
+                            <a href="{{ $item['url'] }}" @if ($isActive) aria-current="page" @endif class="flex flex-1 items-center gap-3 px-5 py-3.5 text-[15px] font-semibold transition hover:bg-stone aria-[current=page]:text-java">
                                 <span class="size-2.5 shrink-0 bg-(--hue)"></span>{{ $item['name'] }}
                             </a>
                             @if ($item['children'])
@@ -115,7 +114,7 @@
                             <div id="wc-acc-{{ $item['slug'] }}" class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 group-data-[open=true]/acc:grid-rows-[1fr]">
                                 <ul class="overflow-hidden border-l-[6px] border-(--hue) bg-stone">
                                     @foreach ($item['children'] as $child)
-                                        <li><a href="{{ $child['url'] }}" class="block px-6 py-2.5 font-serif text-[17px] hover:text-java">{{ $child['name'] }}</a></li>
+                                        <li><a href="{{ $child['url'] }}" class="block px-6 py-2.5 text-sm font-medium hover:text-java">{{ $child['name'] }}</a></li>
                                     @endforeach
                                 </ul>
                             </div>

@@ -694,15 +694,12 @@ function initArticle(root) {
     update();
 }
 
-/** Bilah atas yang mengambang di atas foto menjadi padat setelah foto tergulir lewat. */
+/** Judul di header halaman kanal baru muncul setelah judul besar di foto tergulir lewat. */
 function initSolidHeader(root) {
     root.find('[data-solid-at]').each(function () {
         const screen = $(this);
         const scroller = screen.find('[data-scroll]')[0];
-        const limit = () => {
-            const value = screen.attr('data-solid-at');
-            return value === 'cover' ? screen.find('.article-cover img').height() - 110 : Number(value);
-        };
+        const limit = () => Number(screen.attr('data-solid-at'));
         const update = () => {
             const solid = String(scroller.scrollTop > limit());
             if (screen.attr('data-solid') !== solid) {

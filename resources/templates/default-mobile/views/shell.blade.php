@@ -37,7 +37,7 @@
 <body>
 <div class="stage">
     <aside class="stage-side">
-        <img src="{{ $site['brand']['logo'] }}" alt="RayaTimes portal" class="h-11 w-auto">
+        <img src="{{ $site['brand']['logo_main'] }}" alt="RayaTimes" class="h-11 w-auto">
         <h1 class="stage-title">Mockup aplikasi</h1>
         <p class="stage-note">iPhone 16, 393 × 852 pt, ukuran asli.</p>
 
