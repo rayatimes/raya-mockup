@@ -5,7 +5,7 @@
  */
 @import 'tailwindcss' source(none);
 @import '@fontsource-variable/archivo/wdth.css';
-@import '@fontsource-variable/newsreader/opsz.css';
+@import '@fontsource-variable/inter/opsz.css';
 @import 'remixicon/fonts/remixicon.css';
 
 @source '../views';
@@ -16,7 +16,7 @@
 @theme {
     --font-sans: 'Archivo Variable', ui-sans-serif, system-ui, sans-serif;
     --font-serif: 'Archivo Variable', ui-sans-serif, system-ui, sans-serif;
-    --font-read: 'Newsreader Variable', Georgia, serif;
+    --font-read: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
 }
 
 :root {
@@ -449,7 +449,7 @@ body { margin: 0; background: #ececec; font-family: var(--font-sans); color: #11
 
 /* ==================================================================== Ciri Lensa
  * Foto sebagai pembawa cerita (The Story Frame): judul Archivo condensed di atas foto,
- * tanpa sudut membulat, ruang gelap. Newsreader hanya untuk teks baca.
+ * tanpa sudut membulat, ruang gelap. Inter untuk teks baca.
  */
 body { background: #0b0b0b; color: #f5f5f5; }
 .stage-title { font-family: var(--font-sans); font-stretch: 72%; font-size: 44px; font-weight: 700; line-height: 1; }
@@ -569,13 +569,13 @@ body { background: #0b0b0b; color: #f5f5f5; }
 .attr-facts .attr-chip-accent { background: var(--primary); color: var(--on-primary); }
 .avatar { background: var(--primary); }
 
-.prose { margin-top: 20px; font-family: var(--font-read); font-size: calc(18px * var(--reader)); line-height: 1.6; color: var(--read); }
+.prose { margin-top: 20px; font-family: var(--font-read); font-size: calc(16.5px * var(--reader)); line-height: 1.7; color: var(--read); }
 .prose h2, .prose h3, .prose h4 { font-family: var(--font-sans); font-stretch: 72%; }
 .prose h2 { font-size: 1.6em; }
 .prose h3 { font-size: 1.4em; }
 .prose a { color: var(--primary); }
 .prose blockquote { border-left-color: var(--primary); font-family: var(--font-sans); font-stretch: 72%; font-size: 1.4em; font-style: normal; font-weight: 600; line-height: 1.15; }
-.prose p:first-child strong:first-child { font-family: var(--font-sans); color: var(--primary); }
+.prose p:first-child strong:first-child { color: var(--primary); }
 .also { position: relative; padding: 0; overflow: hidden; border: 0; background: #111; }
 .also a { display: block; }
 .prose .also img { display: block; width: 100%; height: 150px; opacity: .6; }
