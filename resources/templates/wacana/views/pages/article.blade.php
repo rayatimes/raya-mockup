@@ -4,6 +4,18 @@
     $blocks = $rt->contentBlocks($article);
     $related = $rt->related($article, 6);
     $sidenotes = array_slice($related, 0, 2);
+    // Baca juga selalu masuk badan artikel (juga artikel pendek), dan tidak memisahkan subjudul dari paragrafnya.
+    $lastBlock = max(count($blocks) - 1, 0);
+    $noteSlot = function (int $target) use ($blocks, $lastBlock): int {
+        for ($i = min($target, $lastBlock); $i < $lastBlock; $i++) {
+            if (! preg_match('/^\s*<h[1-6]\b/i', $blocks[$i])) {
+                return $i;
+            }
+        }
+
+        return $lastBlock;
+    };
+    $inlineNotes = array_filter([$noteSlot(min(4, max($lastBlock - 1, 0))) => $sidenotes[0] ?? null] + [$noteSlot(10) => $sidenotes[1] ?? null]);
     $layout = $rt->articleLayout($article, request()->query('tata'));
 @endphp
 
@@ -11,7 +23,7 @@
     <article data-kanal="{{ $article['category']['slug'] }}">
         @include($layout === 'cover' ? 'wacana::partials.article.head-cover' : 'wacana::partials.article.head-title')
 
-        <div class="mx-auto mt-12 grid max-w-[84rem] gap-12 px-4 lg:px-8 xl:grid-cols-[13rem_minmax(0,44rem)_minmax(0,1fr)]">
+        <div class="mx-auto mt-12 grid max-w-[84rem] gap-12 px-4 lg:grid-cols-[minmax(0,1fr)_20rem] lg:px-8 xl:grid-cols-[10rem_minmax(0,40rem)_minmax(0,1fr)]">
             {{-- Kolom kiri (layar lebar): waktu baca dan kontrol baca --}}
             <aside class="hidden space-y-8 xl:sticky xl:top-20 xl:block xl:self-start">
                 @if ($layout === 'judul')
@@ -38,9 +50,9 @@
                 <div class="wc-prose" data-article-body>
                     @foreach ($blocks as $i => $block)
                         {!! $block !!}
-                        @if (($i === 4 && isset($sidenotes[0])) || ($i === 10 && isset($sidenotes[1])))
-                            @php $note = $sidenotes[$i === 4 ? 0 : 1]; @endphp
-                            <aside data-card data-kanal="{{ $note['category']['slug'] }}" class="group !my-10 border-y-[3px] border-(--hue) py-5 xl:hidden [.is-focus_&]:hidden">
+                        @if (isset($inlineNotes[$i]))
+                            @php $note = $inlineNotes[$i]; @endphp
+                            <aside data-card data-kanal="{{ $note['category']['slug'] }}" class="group !my-10 border-y-[3px] border-(--hue) py-5 [.is-focus_&]:hidden">
                                 <p class="text-[13px] font-semibold text-(--hue)">Baca juga</p>
                                 <a href="{{ $note['url'] }}" class="wc-head wc-link mt-1 block text-2xl">{{ $note['title'] }}</a>
                             </aside>
@@ -77,16 +89,10 @@
                 @endforeach
             </div>
 
-            {{-- Kolom kanan: catatan samping --}}
-            <aside class="hidden space-y-8 xl:block [.is-focus_&]:!hidden">
-                @foreach ($sidenotes as $note)
-                    <div data-card data-kanal="{{ $note['category']['slug'] }}" class="group border-t-[3px] border-(--hue) pt-3">
-                        <p class="text-[13px] font-semibold text-(--hue)">Baca juga</p>
-                        <a href="{{ $note['url'] }}" class="wc-head wc-link mt-1 block text-lg">{{ $note['title'] }}</a>
-                        <p class="wc-meta mt-1">{{ $rt->ago($note['published']) }}</p>
-                    </div>
-                @endforeach
-            </aside>
+            {{-- Kolom kanan: sama dengan kolom samping beranda --}}
+            <div class="mx-auto w-full min-w-0 max-w-[44rem] lg:max-w-none [.is-focus_&]:hidden">
+                @include('wacana::partials.aside')
+            </div>
         </div>
     </article>
 

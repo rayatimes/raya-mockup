@@ -113,6 +113,10 @@ Data yang mendukung keputusan ini ada di `resources/data/rayatimes/site.php`: `h
 | Foto kartu Analisis & perspektif dan Untuk memahami lebih utuh | Efek duotone dihapus dari template; foto tampil asli tanpa perlu hover. |
 | Judul daftar artikel diperbesar | Daftar artikel 22px di ponsel dan 26px mulai `sm`, termasuk hasil muat-lebih-banyak; daftar headline samping 20px dan 22px. |
 
+## Artikel Wacana: Baca juga dan kolom samping (9 November 2026)
+
+"Baca juga" kini selalu berada di dalam badan artikel, juga pada artikel pendek. Kolom kanan diisi kolom samping beranda (Paling banyak dibaca, Sedang tren). Kolom kiri 10rem dan badan 40rem di layar `xl`; di `lg` dua kolom tanpa kolom kiri; di bawah `lg` kolom samping turun ke bawah artikel. Mode fokus tetap menyembunyikan keduanya.
+
 ## Banner foto Wacana dan Lensa Mobile (9 November 2026)
 
 Banner gambar di beranda Wacana (web) dan Lensa Mobile diganti kartu foto dengan lapisan gelap dan teks asli di atasnya, lewat `Repository::featureBanners()`. Insight memakai sampul `insight.rayatimes.id`; Tajuk memakai foto artikel Tajuk terbaru dengan deskripsi singkat (`tajuk_banner` di `site.php`), dan menuju halaman kanal Tajuk. Kedua banner punya ikon kunjungi di kanan bawah. Banner unduh aplikasi tidak lagi tampil di kedua template itu. `home_banners` tetap dipakai beranda Default dan Lensa web.

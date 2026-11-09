@@ -60,6 +60,29 @@ class WacanaTemplateTest extends TestCase
         ];
     }
 
+    public function test_article_shows_read_also_in_body_and_home_sidebar_on_the_right(): void
+    {
+        $rt = $this->get('/wacana')->viewData('rt');
+        $articlesWithRelated = array_values(array_filter($rt->articles(), fn (array $article): bool => $rt->related($article, 1) !== []));
+        usort($articlesWithRelated, fn (array $a, array $b): int => count($rt->contentBlocks($a)) <=> count($rt->contentBlocks($b)));
+
+        foreach ([$articlesWithRelated[0], end($articlesWithRelated)] as $article) {
+            $response = $this->get($article['url']);
+
+            $response->assertOk();
+            $response->assertSeeInOrder(['data-article-body', 'Baca juga', 'Paling banyak dibaca', 'Sedang tren'], false);
+        }
+    }
+
+    public function test_read_also_never_directly_follows_a_subheading(): void
+    {
+        $rt = $this->get('/wacana')->viewData('rt');
+
+        foreach (array_slice($rt->articles(), 0, 40) as $article) {
+            $this->assertDoesNotMatchRegularExpression('/<\/h[1-6]>\s*<aside data-card/i', $this->get($article['url'])->assertOk()->getContent());
+        }
+    }
+
     public function test_home_section_dividers_do_not_use_category_colors(): void
     {
         $response = $this->get('/wacana');
