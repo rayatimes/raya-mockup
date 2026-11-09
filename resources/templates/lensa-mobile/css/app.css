@@ -472,7 +472,7 @@ body { background: #0b0b0b; color: #f5f5f5; }
 .bar { padding: var(--sat) 12px 8px; }
 .bar-brand { display: block; }
 .bar-logo { width: 122px; height: 30px; }
-.bar-btn { width: 36px; height: 36px; font-size: 19px; background: var(--chip); }
+.bar-btn { width: 36px; height: 36px; font-size: 19px; }
 .bar-end { gap: 8px; }
 .save-on { color: var(--primary); }
 
